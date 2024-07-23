@@ -1,0 +1,25 @@
+<구조분해할당 Destructuring>
+1. 객체의 구조분해할당
+user = { name: "Steve", email: "steve@email.com" };
+const { name } = user;
+
+2. 배열의 구조분해할당
+colors = [ "black", "red", "blue" ];
+const [ color0, color1, color2 ] = colors;
+
+function func1(value) {
+    let number = value;
+    function setNumber(newValue) {
+        number = newValue;
+    }
+    return [ number, setNumber ];
+}
+
+const [ number, setNumber ]= func1(10);
+setNumber(100);
+setNumber(200);
+
+
+
+
+

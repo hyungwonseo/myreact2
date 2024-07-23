@@ -1,11 +1,9 @@
-import { ListWrapper } from "./Components/20240722/ListWrapper";
-import { Test1 } from "./Components/20240722/Test1";
-import { Test2 } from "./Components/20240722/Test2";
+import { CounterState } from "./Components/20240723/CounterState";
 
 function App() {
   return (
     <>
-      <ListWrapper />
+      <CounterState />
     </>
   );
 }
