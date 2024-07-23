@@ -1,9 +1,9 @@
-import { CounterState } from "./Components/20240723/CounterState";
+import { Gallery } from "./Components/20240723/Gallery";
 
 function App() {
   return (
     <>
-      <CounterState />
+      <Gallery />
     </>
   );
 }
