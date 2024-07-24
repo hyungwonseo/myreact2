@@ -131,25 +131,49 @@ const Content = styled.p`
 `;
 
 export function Gallery() {
+  const [index, setIndex] = useState(0);
+  const [detailON, setDetailOn] = useState(false);
+  const target = sculptureList[index];
+  function onPrev() {
+    if (index > 0) {
+      setIndex(index - 1);
+    } else {
+      setIndex(sculptureList.length - 1);
+    }
+  }
+  function onNext() {
+    if (index < sculptureList.length - 1) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+  }
+  function onClick() {
+    setDetailOn(!detailON);
+  }
   return (
     <>
       <Container>
         <h2>
-          <Title>{sculptureList[0].name}</Title>
-          by {sculptureList[0].artist}
+          <Title>{target.name}</Title>
+          by {target.artist}
         </h2>
         <h4>
-          {0} of {sculptureList.length}
-          <button style={{ marginLeft: "20px" }}>Prev</button>
-          <button style={{ marginLeft: "20px" }}>Next</button>
+          {index + 1} of {sculptureList.length}
+          <button style={{ marginLeft: "20px" }} onClick={onPrev}>
+            Prev
+          </button>
+          <button style={{ marginLeft: "20px" }} onClick={onNext}>
+            Next
+          </button>
         </h4>
         <Box>
           <Img>
-            <img src={sculptureList[0].url} alt={sculptureList[0].alt} />
+            <img src={target.url} alt={target.alt} />
           </Img>
           <Right>
-            <button>Detail</button>
-            <Content>{sculptureList[0].description}</Content>
+            <button onClick={onClick}>Detail</button>
+            {detailON ? <Content>{target.description}</Content> : null}
           </Right>
         </Box>
       </Container>
