@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "./Button";
 import { Menu } from "./Menu";
+import { ItemList } from "./ItemList";
 
 const Container = styled.div`
   display: flex;
@@ -37,6 +38,9 @@ export function Home() {
             func={() => console.log("버튼3이 클릭됨")}
           />
           <Button />
+          <br />
+          <br />
+          <ItemList />
         </Content>
       </Container>
     </>
