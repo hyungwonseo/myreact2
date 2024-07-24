@@ -59,13 +59,18 @@ export function OpenWeather() {
   function geoOK(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    const url = ``;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         console.log(data);
+        setCity(data.name);
+        setTemp(parseInt(data.main.temp));
+        setIcon(data.weather[0].icon);
+        setWeather(data.weather[0].main);
       })
       .catch((error) => {
         console.log("요청이 실패했습니다.", error);
@@ -85,7 +90,7 @@ export function OpenWeather() {
           <Weather>
             <Temp>
               {temp}
-              <i class="ti ti-temperature-celsius"></i>
+              <i className="ti ti-temperature-celsius"></i>
             </Temp>
             <City>{city}</City>
             <Info>{weather}</Info>
