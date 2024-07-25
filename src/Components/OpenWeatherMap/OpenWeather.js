@@ -13,7 +13,10 @@ const Container = styled.div`
 const Card = styled.div`
   width: 500px;
   height: 300px;
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  background: ${(props) =>
+    props.$temp >= 20
+      ? "linear-gradient(90deg, #ff7e5f, #feb47b)"
+      : "linear-gradient(90deg, #00c6ff, #0072ff)"};
   color: white;
   border-radius: 10px;
   display: grid;
@@ -46,6 +49,33 @@ const Info = styled.div`
   font-size: 1.5rem;
   margin-top: 30px;
 `;
+const SearchBox = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+const Input = styled.input`
+  width: 350px;
+`;
+const Button = styled.button`
+  background-color: dodgerblue;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.1rem;
+  margin-left: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: blue;
+  }
+  &:active {
+    background-color: darkblue;
+  }
+`;
 
 export function OpenWeather() {
   const API_KEY = "0f9dadad923c3b8044765233ab93226e";
@@ -53,6 +83,7 @@ export function OpenWeather() {
   const [temp, setTemp] = useState(0);
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState("");
+  const [newCityName, setNewCityName] = useState("");
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(geoOK, geoError);
@@ -113,10 +144,25 @@ export function OpenWeather() {
     alert("현재 위치정보를 찾을 수 없습니다.");
   }
 
+  async function getWeatherByCityName() {
+    const urlCity = `https://api.openweathermap.org/data/2.5/find?q=${newCityName}&appid=${API_KEY}&units=metric`;
+    try {
+      const response = await axios.get(urlCity);
+      const data = response.data.list[0];
+      console.log(data);
+      setCity(data.name);
+      setTemp(parseInt(data.main.temp));
+      setIcon(data.weather[0].icon);
+      setWeather(data.weather[0].main);
+    } catch (error) {
+      console.log("요청이 실패했습니다.", error);
+    }
+  }
+
   return (
     <>
       <Container>
-        <Card>
+        <Card $temp={temp}>
           <Icon>
             <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} />
           </Icon>
@@ -129,6 +175,16 @@ export function OpenWeather() {
             <Info>{weather}</Info>
           </Weather>
         </Card>
+        <SearchBox>
+          <Input
+            placeholder="도시 이름을 영어로 입력해주세요"
+            onChange={(e) => {
+              setNewCityName(e.target.value);
+            }}
+            value={newCityName}
+          />
+          <Button onClick={getWeatherByCityName}>Search</Button>
+        </SearchBox>
       </Container>
     </>
   );
