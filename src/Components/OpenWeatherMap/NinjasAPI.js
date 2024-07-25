@@ -25,7 +25,7 @@ const Button = styled.button`
     background-color: darkblue;
   }
 `;
-const Response = styled.div``;
+const Response = styled.pre``;
 
 export function NinjasAPI() {
   const API_KEY_NINJA = "uvS/Vd5ZkGdHe8VMWc6Bmw==ZAOqpKgaLOPieexT";
@@ -40,7 +40,7 @@ export function NinjasAPI() {
         },
       });
       console.log(response.data);
-      setData(response.data);
+      setData(JSON.stringify(response.data, null, "\t"));
     } catch (error) {
       console.log("요청이 실패했습니다", error);
     }
