@@ -4,7 +4,6 @@ import { Home } from "./Home";
 import { Dashboard } from "./Dashboard";
 import { Login } from "./Login";
 import { Error } from "./Error";
-import { Movie } from "./Movie";
 import { MovieList } from "./MovieList";
 import { Search } from "./Search";
 import styled from "styled-components";
@@ -38,7 +37,7 @@ export function MovieShop() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/movielist" element={<MovieList />} />
+                <Route path="/movie" element={<MovieList />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login" element={<Login />} />

@@ -27,7 +27,7 @@ export function Navbar() {
         <StyledLink to="/">
           <NavItem icon="ti ti-home" name="HOME"></NavItem>
         </StyledLink>
-        <StyledLink to="/movielist">
+        <StyledLink to="/movie">
           <NavItem icon="ti ti-device-tv" name="MOVIE"></NavItem>
         </StyledLink>
         <StyledLink to="/search">
