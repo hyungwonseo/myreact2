@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { OpenWeather } from "./Components/OpenWeatherMap/OpenWeather";
+import { NinjasAPI } from "./Components/OpenWeatherMap/NinjasAPI";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <OpenWeather />
+      <NinjasAPI />
     </>
   );
 }

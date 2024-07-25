@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const Container = styled.div`
   width: 100vw;
@@ -7,6 +8,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 const Card = styled.div`
   width: 500px;
@@ -56,25 +58,56 @@ export function OpenWeather() {
     navigator.geolocation.getCurrentPosition(geoOK, geoError);
   }, []); // 최초 1회만
 
-  function geoOK(position) {
+  // Async~await방식의 비동기 코드는 반드시 함수안에서 실행되어야 하고
+  // 함수선언문 앞에 asycn 키워드가 필요함!
+  async function geoOK(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setCity(data.name);
-        setTemp(parseInt(data.main.temp));
-        setIcon(data.weather[0].icon);
-        setWeather(data.weather[0].main);
-      })
-      .catch((error) => {
-        console.log("요청이 실패했습니다.", error);
-      });
+    // 1. Axios 사용법(Async~await)
+    try {
+      const response = await axios.get(url);
+      const data = response.data;
+      console.log(data);
+      setCity(data.name);
+      setTemp(parseInt(data.main.temp));
+      setIcon(data.weather[0].icon);
+      setWeather(data.weather[0].main);
+    } catch (error) {
+      console.log("요청이 실패했습니다.", error);
+    }
+
+    // 2. Axios 사용법(Promise~then)
+    // axios
+    //   .get(url)
+    //   .then((response) => {
+    //     const data = response.data;
+    //     console.log(data);
+    //     setCity(data.name);
+    //     setTemp(parseInt(data.main.temp));
+    //     setIcon(data.weather[0].icon);
+    //     setWeather(data.weather[0].main);
+    //   })
+    //   .catch((error) => {
+    //     console.log("요청이 실패했습니다.", error);
+    //   });
+
+    // 3. fetch 사용법
+    // fetch(url)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     setCity(data.name);
+    //     setTemp(parseInt(data.main.temp));
+    //     setIcon(data.weather[0].icon);
+    //     setWeather(data.weather[0].main);
+    //   })
+    //   .catch((error) => {
+    //     console.log("요청이 실패했습니다.", error);
+    //   });
   }
   function geoError() {
     alert("현재 위치정보를 찾을 수 없습니다.");
