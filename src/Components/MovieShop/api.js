@@ -9,7 +9,7 @@ const headers = {
 };
 
 export const IMG_PATH = "https://image.tmdb.org/t/p/original";
-export const genre = [];
+export let genre = [];
 
 export function getMoviesNowPlaying() {
   return axios.get(
@@ -41,7 +41,7 @@ export function getMoviesUpcoming() {
 
 export async function setGenreListOfMovie() {
   // 로컬스토리지에 장르리스트가 있으면 그걸 사용
-  // genre = JSON.parse(localStorage.getItem("MovieGenreList"));
+  genre = JSON.parse(localStorage.getItem("MovieGenreList"));
   // 없으면 api로 받아와서 로컬스토리지에 저장하고 사용
   if (!genre) {
     try {
