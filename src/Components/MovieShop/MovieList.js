@@ -25,7 +25,10 @@ const Card = styled.div`
 const Img = styled.img`
   width: 100%;
 `;
-const Text = styled.div``;
+const Text = styled.div`
+  color: #333;
+  margin: 2px 0;
+`;
 const Tab = styled.div`
   display: flex;
   margin: 10px 0;
@@ -99,9 +102,14 @@ export function MovieList() {
           data.results.map((movie) => (
             <Card key={movie.id}>
               <Img src={IMG_PATH + movie.poster_path}></Img>
-              <Text>타이틀 : {movie.title}</Text>
-              <Text>장르 : {getGenre(movie.genre_ids)}</Text>
-              <Text>소개글 : {movie.overview}</Text>
+              <Text>
+                <b>타이틀</b> : {movie.title}
+              </Text>
+              <Text>
+                <b>장르</b> : {getGenre(movie.genre_ids)}
+              </Text>
+              <hr />
+              <Text>{movie.overview}</Text>
             </Card>
           ))}
       </Container>
