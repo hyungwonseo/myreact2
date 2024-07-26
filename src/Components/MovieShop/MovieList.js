@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { getMoviesNowPlaying, getGenre, IMG_PATH } from "./api";
+import {
+  getGenre,
+  IMG_PATH,
+  getMoviesNowPlaying,
+  getMoviesPopular,
+  getMoviesTopRated,
+  getMoviesUpcoming,
+  setGenreListOfMovie,
+} from "./api";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -18,13 +26,17 @@ const Img = styled.img`
   width: 100%;
 `;
 const Text = styled.div``;
+const Tab = styled.div`
+  display: flex;
+  margin: 10px 0;
+`;
 const Button = styled.button`
-  width: 150px;
+  width: 130px;
   height: 40px;
   background-color: dodgerblue;
   border: none;
   color: white;
-  padding: 5px 15px;
+  padding: 5px 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -36,21 +48,31 @@ const Button = styled.button`
   &:hover {
     background-color: blue;
   }
-  &:active {
+  &.active {
     background-color: darkblue;
   }
 `;
 
+const categories = [
+  { category: "Now Playng", func: getMoviesNowPlaying },
+  { category: "Popular", func: getMoviesPopular },
+  { category: "Top Rated", func: getMoviesTopRated },
+  { category: "Upcoming", func: getMoviesUpcoming },
+];
+
 export function MovieList() {
   const [data, setData] = useState(null);
+  const [category, setCategory] = useState(0);
 
   useEffect(() => {
-    getMovies();
+    setGenreListOfMovie();
+    getMovies(category);
   }, []);
 
-  async function getMovies() {
+  async function getMovies(index) {
     try {
-      const response = await getMoviesNowPlaying();
+      setCategory(index);
+      const response = await categories[index].func();
       console.log(response.data);
       setData(response.data);
     } catch (error) {
@@ -61,10 +83,17 @@ export function MovieList() {
   return (
     <>
       <h1>Movie List</h1>
-      <Button>Now Playing</Button>
-      <Button>Popular</Button>
-      <Button>Top Rated</Button>
-      <Button>Upcoming</Button>
+      <Tab>
+        {categories.map((c, i) => (
+          <Button
+            key={i}
+            onClick={() => getMovies(i)}
+            className={i == category ? "active" : ""}
+          >
+            {c.category}
+          </Button>
+        ))}
+      </Tab>
       <Container>
         {data &&
           data.results.map((movie) => (
