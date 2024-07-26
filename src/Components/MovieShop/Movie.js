@@ -1,6 +1,31 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieDetailById, getMovieCreditById } from "./api";
+import styled from "styled-components";
+
+const Container = styled.div`
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+`;
+const Header = styled.div`
+  margin: 20px;
+  color: dodgerblue;
+  text-align: center;
+  position: relative;
+`;
+const Back = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 0;
+`;
+const Img = styled.img`
+  width: 100%;
+`;
+const Content = styled.div`
+  font-size: 0.9rem;
+  line-height: 30px;
+`;
 
 export function Movie() {
   const { id } = useParams();
