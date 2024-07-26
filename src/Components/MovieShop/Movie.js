@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getMovieDetailById, getMovieCreditById } from "./api";
+import { Link, useParams } from "react-router-dom";
+import { getMovieDetailById, getMovieCreditById, IMG_PATH } from "./api";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 900px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -23,8 +23,9 @@ const Img = styled.img`
   width: 100%;
 `;
 const Content = styled.div`
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 30px;
+  color: #333;
 `;
 
 export function Movie() {
@@ -50,8 +51,58 @@ export function Movie() {
   }
 
   return (
-    <>
-      <h1>Movie : {id}</h1>
-    </>
+    <Container>
+      {detail && credit && (
+        <>
+          <Header>
+            <h1>{detail.title}</h1>
+            <Back>
+              <Link to="/movie">BACK</Link>
+            </Back>
+          </Header>
+          <Img src={IMG_PATH + detail.backdrop_path} />
+          <Content>
+            <p>
+              <b>타이틀</b> : {detail.title}
+            </p>
+            <p>
+              <b>장르</b> :{" "}
+              {detail.genres
+                .map((g) => g.name)
+                .filter((name) => name)
+                .join(", ")}
+            </p>
+            <p>
+              <b>개봉일</b> : {detail.release_date}
+            </p>
+            <p>
+              <b>상영시간</b> : {detail.runtime + "분"}
+            </p>
+            <p>
+              <b>감독</b> :{" "}
+              {credit.crew
+                .filter((c) => c.job == "Director")
+                .map((c) => c.name)
+                .filter((name) => name)
+                .join(", ")}
+            </p>
+            <p>
+              <b>배우</b> :{" "}
+              {credit.cast
+                .slice(0, 10)
+                .map((c) => c.name)
+                .filter((name) => name)
+                .join(", ")}
+            </p>
+            <hr />
+            <p>{detail.overview}</p>
+          </Content>
+          <br />
+          <br />
+          <br />
+          <br />
+        </>
+      )}
+    </Container>
   );
 }
