@@ -71,10 +71,11 @@ export async function setGenreListOfMovie() {
 }
 
 export function getGenre(list) {
-  let str = "";
-  list.forEach((a) => {
-    const temp = genre.find((g) => g.id == a);
-    str = str + ", " + temp.name;
-  });
-  return str;
+  return list
+    .map((id) => {
+      const temp = genre.find((g) => g.id == id);
+      return temp ? temp.name : "";
+    })
+    .filter((name) => name)
+    .join(", ");
 }
