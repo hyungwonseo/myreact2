@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   getGenre,
   IMG_PATH,
@@ -10,6 +10,7 @@ import {
 } from "./api";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { MovieContext } from "./MovieWrapper";
 
 const Container = styled.div`
   width: 100%;
@@ -66,7 +67,7 @@ const categories = [
 
 export function MovieList() {
   const [data, setData] = useState(null);
-  const [category, setCategory] = useState(0);
+  const { category, setCategory } = useContext(MovieContext);
   // useNavigate후크는 url주소를 매개변수로 갖는 페이지 변경 함수를 리턴함!
   const navigate = useNavigate();
 
