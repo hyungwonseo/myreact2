@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { IMG_PATH } from "./api";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SearchBox = styled.div``;
 const Input = styled.input`
@@ -32,6 +33,9 @@ const Text = styled.div`
 export function Search() {
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const keyword = new URLSearchParams(location.search).get("keyword");
 
   return (
     <>
@@ -43,13 +47,14 @@ export function Search() {
         />
         <button
           onClick={() => {
-            //setInputValue("");
+            navigate(`/search?keyword=${inputValue}`);
+            setInputValue("");
           }}
         >
           Search
         </button>
       </SearchBox>
-      <h3></h3>
+      <h3>{keyword ? keyword : null}</h3>
       <Container>
         {data &&
           data.results.map((movie) => (
