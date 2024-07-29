@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getMovieDetailById, getMovieCreditById, IMG_PATH } from "./api";
+import { IconBack } from "./icons";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -9,15 +10,14 @@ const Container = styled.div`
   flex-direction: column;
 `;
 const Header = styled.div`
-  margin: 20px;
+  width: 100%;
+  margin: 20px 0;
   color: dodgerblue;
-  text-align: center;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
 `;
 const Back = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 0;
+  cursor: pointer;
 `;
 const Img = styled.img`
   width: 100%;
@@ -32,6 +32,7 @@ export function Movie() {
   const { id } = useParams();
   const [detail, setDetail] = useState(null);
   const [credit, setCredit] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovieInfo();
@@ -56,8 +57,8 @@ export function Movie() {
         <>
           <Header>
             <h1>{detail.title}</h1>
-            <Back>
-              <Link to="/movie">BACK</Link>
+            <Back onClick={() => navigate(-1)}>
+              <IconBack />
             </Back>
           </Header>
           <Img src={IMG_PATH + detail.backdrop_path} />
@@ -97,6 +98,9 @@ export function Movie() {
             <hr />
             <p>{detail.overview}</p>
           </Content>
+          <Back onClick={() => navigate(-1)}>
+            <IconBack />
+          </Back>
           <br />
           <br />
           <br />

@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { IMG_PATH } from "./api";
+import { useEffect, useState } from "react";
+import { getGenre, IMG_PATH, seachMoviesByKeyword } from "./api";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const SearchBox = styled.div``;
+const SearchBox = styled.div`
+  margin-bottom: 20px;
+`;
 const Input = styled.input`
   width: 500px;
   margin-right: 5px;
@@ -37,6 +39,24 @@ export function Search() {
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("keyword");
 
+  useEffect(() => {
+    if (keyword) {
+      searchMovies();
+    } else {
+      setData(null);
+    }
+  }, [keyword]);
+
+  async function searchMovies() {
+    try {
+      const response = await seachMoviesByKeyword(keyword);
+      console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
   return (
     <>
       <SearchBox>
@@ -54,20 +74,25 @@ export function Search() {
           Search
         </button>
       </SearchBox>
-      <h3>{keyword ? keyword : null}</h3>
+      <h3>{keyword ? `"${keyword}"로 검색한 결과 ` : null}</h3>
       <Container>
         {data &&
           data.results.map((movie) => (
-            <Card key={movie.id} onClick={() => {}}>
-              <Img src={IMG_PATH}></Img>
+            <Card
+              key={movie.id}
+              onClick={() => {
+                navigate(`/movie/${movie.id}`);
+              }}
+            >
+              <Img src={IMG_PATH + movie.poster_path}></Img>
               <Text>
-                <b>타이틀</b> :
+                <b>타이틀</b> : {movie.title}
               </Text>
               <Text>
-                <b>장르</b> :
+                <b>장르</b> : {getGenre(movie.genre_ids)}
               </Text>
               <hr />
-              <Text></Text>
+              <Text>{movie.overview}</Text>
             </Card>
           ))}
       </Container>

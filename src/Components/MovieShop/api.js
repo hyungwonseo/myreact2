@@ -52,6 +52,13 @@ export function getMovieCreditById(id) {
   );
 }
 
+export function seachMoviesByKeyword(keyword) {
+  return axios.get(
+    `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR`,
+    headers
+  );
+}
+
 export async function setGenreListOfMovie() {
   // 로컬스토리지에 장르리스트가 있으면 그걸 사용
   genre = JSON.parse(localStorage.getItem("MovieGenreList"));
