@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { TopDownAction } from "./Components/Unity/TopDownAction";
+import { MovieShop } from "./Components/MovieShop/MovieShop";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <TopDownAction />
+      <MovieShop />
     </>
   );
 }
